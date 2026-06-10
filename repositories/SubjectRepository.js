@@ -1,7 +1,8 @@
-const SubjectModel = require('../models/Subject');
+const SubjectModel = require('../models/subject');
 const mongoose = require('mongoose');
 
 function debugQuery(operation, filter) {
+  if (process.env.NODE_ENV === 'production') return;
   const dbName = mongoose.connection.name;
   const collectionName = SubjectModel.collection.collectionName || 'subject';
   console.log(`[DB DEBUG] ${operation} -> db: "${dbName}", collection: "${collectionName}"${filter ? `, filter: ${JSON.stringify(filter)}` : ''}`);

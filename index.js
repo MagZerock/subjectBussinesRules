@@ -3,13 +3,18 @@ const mongoose = require('mongoose');
 const subjectRoutes = require('./routes/SubjectRoutes');
 
 const app = express();
-const PORT = 3002;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-mongoose.connect(
-  'mongodb+srv://admin:admin@awd.ypmipjt.mongodb.net/universityESPE'
-);
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  console.error('FATAL: MONGO_URI environment variable is not set.');
+  process.exit(1);
+}
+
+mongoose.connect(MONGO_URI);
 
 const db = mongoose.connection;
 db.on('error', (error) => console.error('MongoDB connection error:', error));
